@@ -219,7 +219,7 @@
                 
 
     
-        <h3 class="title2">Shopping Cart Details</h3>
+        <h3 class="title2">Artíclos en tu carrito</h3>
         <div class="table-responsive">
             <table class="table table-bordered">
             <tr>

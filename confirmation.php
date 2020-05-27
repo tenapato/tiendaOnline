@@ -1,3 +1,70 @@
+<?php
+
+	session_start();
+
+	$total = $_SESSION["total"];
+
+	$us = $_SESSION["username"];
+	$idC = $_SESSION["idCarrito"];
+
+	$enlace = mysqli_connect("127.0.0.1:3308", "usuarioTienda", "Pass1357!", "tiendaonline");
+
+
+//Query para crear ticket
+	$query_insert = "INSERT INTO ticket
+            (id_usuario, precio_total, Fecha)
+            VALUES
+            ('$us', '$total', now());" ;
+            
+
+    $insert_query = mysqli_query($enlace, $query_insert );
+
+
+
+	$query = "SELECT Fecha, id_ticket FROM ticket";
+
+	$result = mysqli_query($enlace,$query);
+
+	$row = mysqli_fetch_array($result);
+
+
+	//query para llenar informacion de pago
+
+	$numTar = $_POST["numTarjeta"];
+	$ccv = $_POST["ccv"];
+	$fechaE = $_POST["fechaExp"];
+
+	$query_pago = "INSERT INTO informacion_pago
+	(Num_tarjeta, id_usuario, CCV, Fecha_expiracion)
+	VALUES
+	('$numTar', '$us', '$ccv', '$fechaE')";
+	$insert_query = mysqli_query($enlace, $query_pago );
+
+
+	//query para llenar el carrito has venta
+
+	$idTick = $row["id_ticket"];
+
+
+	$query4 = "INSERT INTO carrito_has_venta
+	(num_ticket, id_carrito, precio_total)
+	VALUES
+	('$idTick','$idC', '$total')";
+	$insert_query = mysqli_query($enlace, $query4);
+
+
+
+
+	
+?>
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -17,6 +84,7 @@
 	<!-- Site Title -->
 	<title>PC Shop</title>
 
+	<meta http-equiv="refresh" content="3;URL=borrar.php">
 	<!--
 		CSS
 		============================================= -->
@@ -99,6 +167,7 @@
 
 	<!--================Order Details Area =================-->
 	<section class="order_details section_gap">
+	
 		<div class="container">
 			<h3 class="title_confirmation">Gracias por su compra! Tu orden ha sido recibida.</h3>
 			<div class="row order_d_inner">
@@ -106,9 +175,9 @@
 					<div class="details_item">
 						<h4>Informacion de compra</h4>
 						<ul class="list">
-							<li><a href="#"><span>Numero de Ticker</span> : 60235</a></li>
-							<li><a href="#"><span>Fecah</span> : 20-01-2020</a></li>
-							<li><a href="#"><span>Total</span> : USD 2210</a></li>
+							<li><a href="#"><span>Numero de Ticker</span> : <?php echo $row["id_ticket"]?></a></li>
+							<li><a href="#"><span>Fecha</span> : <?php echo $row["Fecha"]?></a></li>
+							<li><a href="#"><span>Total</span> : <?php echo $_SESSION["total"]?></a></li>
 			
 						</ul>
 					</div>
@@ -116,7 +185,36 @@
 				
 			</div>
 			<div class="order_details_table">
-				<h2>Order Details</h2>
+				<h2>Detalles de la Orden</h2>
+				<?php	
+
+						
+							$enlace = mysqli_connect("127.0.0.1:3308", "usuarioTienda", "Pass1357!", "tiendaonline");
+
+                            $us = $_SESSION["username"];
+                             $idC = $_SESSION["idCarrito"];
+
+                            
+
+                            $query3 = " SELECT * 
+                            FROM carrito_has_prodcuto join carrito join productos
+                            WHERE (Id_Carrito = id_car) AND (id_usuario = '$us' ) AND (Id_prod = id_producto) AND (Id_carrito = '$idC') ORDER BY cantidad;";
+
+
+                            $query2 = " SELECT Id_prod, id_car, cantidad, Id_Carrito, id_usuario, id_producto, Nombre_producto, Precio, Compatibilidad, Categoria, Stock, imagen,  (sum(Precio*cantidad)) as Total 
+                            FROM carrito_has_prodcuto join carrito join productos
+                            WHERE (Id_Carrito = id_car) AND (id_usuario = '$us' ) AND (Id_prod = id_producto) AND (Id_carrito = '$idC') ORDER BY cantidad;";
+
+                            $result3 = mysqli_query($enlace,$query3);
+                            $result2 = mysqli_query($enlace, $query2);
+
+                            $row2 = mysqli_fetch_array($result2);
+
+                            $total = $row2["Total"];
+                            
+
+                           // $_SESSION["total"] = $row2["Total"];
+                            ?>
 				<div class="table-responsive">
 					<table class="table">
 						<thead>
@@ -125,63 +223,35 @@
 								<th scope="col">Cantidad</th>
 								<th scope="col">Total</th>
 							</tr>
+							<?php
+							if(mysqli_num_rows($result3) > 0) {
+
+						while ($row3 = mysqli_fetch_array($result3)) {
+							
+						?>
 						</thead>
 						<tbody>
 							<tr>
 								<td>
-									<p>Uvas mamalonas</p>
+									<p><?php echo $row3["Nombre_producto"]?></p>
 								</td>
 								<td>
-									<h5>x 02</h5>
+									<h5>x <?php echo $row3["cantidad"]?></h5>
 								</td>
 								<td>
-									<p>$720.00</p>
+									<p><?php echo $row3["Precio"]?></p>
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<p>Uvas mamalonas</p>
-								</td>
-								<td>
-									<h5>x 02</h5>
-								</td>
-								<td>
-									<p>$720.00</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<p>Uvas mamalonas</p>
-								</td>
-								<td>
-									<h5>x 02</h5>
-								</td>
-								<td>
-									<p>$720.00</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h4>Subtotal</h4>
-								</td>
-								<td>
-									<h5></h5>
-								</td>
-								<td>
-									<p>$2160.00</p>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<h4>Envio</h4>
-								</td>
-								<td>
-									<h5></h5>
-								</td>
-								<td>
-									<p>Flat rate: $50.00</p>
-								</td>
-							</tr>
+							<?php 
+                        }
+                        
+                    }
+                            
+                            
+							?>
+							
+
+
 							<tr>
 								<td>
 									<h4>Total</h4>
@@ -190,7 +260,7 @@
 									<h5></h5>
 								</td>
 								<td>
-									<p>$2210.00</p>
+									<p><?php echo $row2["Total"]?></p>
 								</td>
 							</tr>
 						</tbody>
@@ -198,7 +268,10 @@
 				</div>
 			</div>
 		</div>
+		
+		
 	</section>
+				
 	<!--================End Order Details Area =================-->
 
 	<!-- inicio footer -->

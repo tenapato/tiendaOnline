@@ -1,3 +1,10 @@
+<?php
+   session_start();
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -103,62 +110,130 @@
             
             <div class="billing_details">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
+                        
                         <h3>Información de Facturación</h3>
-                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                        <form class="row contact_form" action="confirmation.php" method="post" novalidate="novalidate">
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name">
-                                <span class="placeholder" data-placeholder="Nombre"></span>
+                                
+                                <input type="text" class="form-control" id="first" name="nom" placeholder="Nombre" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nombre'">
+                               
                             </div>
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="last" name="name">
-                                <span class="placeholder" data-placeholder="Apellido"></span>
+                            <input type="text" class="form-control" id="first" name="apell" placeholder="Apellido" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Apelllido'">
+                                
                             </div>
                             
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="number" name="number">
-                                <span class="placeholder" data-placeholder="Número de tarjeta"></span>
+                            <input type="text" class="form-control" id="first" name="numTarjeta" maxlength="16" placeholder="Número de Tarjeta" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Número de Tarjeta'">
+                                
                             </div>
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="ccv" name="compemailany">
-                                <span class="placeholder" data-placeholder="CCV"></span>
+                            <input type="text" class="form-control" id="first" name="ccv" maxlength="3" placeholder="CCV" onfocus="this.placeholder = ''" onblur="this.placeholder = 'CCV'">
+                                
                             </div>
                             
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="fecha" name="add1">
-                                <span class="placeholder" data-placeholder="Fecha de Expiración"></span>
+                            <label for="">Fecha de Expiración</label>
+                            <input type="text" class="form-control" id="first" name="fechaExp" placeholder="mm/aa" onfocus="this.placeholder = 'mm/aa' onblur="this.placeholder = 'mm/aa'">
+                               
                             </div>
-                           
                             
-                        </form>
+
+                            
+                            
+                      
                     </div>
-                    <div class="col-lg-4">
+
+                 <!--aqui estaba el form -->
+              
+                    <div class="col-lg-8">
                         <div class="order_box">
-                            <h2>Your Order</h2>
-                            <ul class="list">
-                                <li><a href="#">Product <span>Total</span></a></li>
-                                <li><a href="#">Uvas sabrosas <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                                <li><a href="#">Uvas sabrosas <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                                <li><a href="#">Uvas Sabrosas <span class="middle">x 02</span> <span class="last">$720.00</span></a></li>
-                            </ul>
+                            <h2>Tu Orden</h2>
+                           
+                                <?php	
+
+						
+							$enlace = mysqli_connect("127.0.0.1:3308", "usuarioTienda", "Pass1357!", "tiendaonline");
+
+                            $us = $_SESSION["username"];
+                             $idC = $_SESSION["idCarrito"];
+
+                            
+
+                            $query = " SELECT * 
+                            FROM carrito_has_prodcuto join carrito join productos
+                            WHERE (Id_Carrito = id_car) AND (id_usuario = '$us' ) AND (Id_prod = id_producto) AND (Id_carrito = '$idC') ORDER BY cantidad;";
+
+
+                            $query2 = " SELECT Id_prod, id_car, cantidad, Id_Carrito, id_usuario, id_producto, Nombre_producto, Precio, Compatibilidad, Categoria, Stock, imagen,  (sum(Precio*cantidad)) as Total 
+                            FROM carrito_has_prodcuto join carrito join productos
+                            WHERE (Id_Carrito = id_car) AND (id_usuario = '$us' ) AND (Id_prod = id_producto) AND (Id_carrito = '$idC') ORDER BY cantidad;";
+
+                            $result = mysqli_query($enlace,$query);
+                            $result2 = mysqli_query($enlace, $query2);
+
+                            $row2 = mysqli_fetch_array($result2);
+
+                            $total = $row2["Total"];
+                            
+
+                            $_SESSION["total"] = $row2["Total"];
+                            ?>
+                    <ui class = "list">
+                    <li><a href="#">Producto <span>Total</span></a></li>
+
+
+                    <?php
+							if(mysqli_num_rows($result) > 0) {
+
+						while ($row = mysqli_fetch_array($result)) {
+							
+                        ?>
+                         <ul class="list">
+                              
+                                <li><a href="#"><?php echo $row["Nombre_producto"] ?><span class="middle">x<?php echo $row["cantidad"] ?></span> <span class="last"><?php echo$row["Precio"]?></span></a></li>
+                                </ul>
+                                <?php 
+                        }
+                        
+                    }
+                            
+                            
+                            ?>
                             <ul class="list list_2">
-                                <li><a href="#">Subtotal <span>$2160.00</span></a></li>
-                                <li><a href="#">Envio <span>Flat rate: $50.00</span></a></li>
-                                <li><a href="#">Total <span>$2210.00</span></a></li>
+                                <li><a href="#">Total <span>$ <?php  echo $total ?></span></a></li>
                             </ul>
+                            
+
+                        <?php
+                        
+                        
+                        
+                        
+                        
+                        
+                        ?>
+
+
+
                             
                             <div class="creat_account">
                                 <input type="checkbox" id="f-option4" name="selector">
                                 <label for="f-option4">I’ve read and accept the </label>
                                 <a href="#">terms & conditions*</a>
                             </div>
-                            <a class="primary-btn" href="confirmation.php">Proceder con el pago</a>
-                        </div>
+                        
+                            <input type="submit" class = "primary-btn" name="Envia" value="Proceder con el pago">
                     </div>
+                   
                 </div>
+           
             </div>
         </div>
     </section>
+    </form>
+
     <!--================End Checkout Area =================-->
 
     <!-- inicio footer -->

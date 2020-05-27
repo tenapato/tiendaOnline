@@ -24,7 +24,11 @@ $result = mysqli_query($enlace, $query) or die("Query 1 failed");
 // La contrasenia esta mal o el usuario no existe
   if(($row = mysqli_fetch_assoc($result)) == null){
 
-   header("Location: login.php");
+
+    echo '<script>alert("Usuario o Contraseña incorrecta")</script>';
+    echo '<script>window.location="login.php"</script>';
+
+   //header("Location: login.php");
   }
 // si existe el usuario y la contra esta bien
 else{
@@ -83,6 +87,7 @@ if($guardarCarrito){ //si el bool es verdaero carga los articulos que ya tenia
 //echo $row["cantidad"];
 //echo $row["Id_prod"];
 
+/* ------------------------------------------------Esta parte carga el carrito de cada ususario*---------------------------------------------------------------------------*/
 
 while($row = mysqli_fetch_assoc($result)){
 

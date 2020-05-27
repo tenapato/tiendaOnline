@@ -124,7 +124,7 @@
 								<input type="text" class="form-control" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Usuario'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control"  name="pswd" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
+								<input type="password" class="form-control"  name="pswd" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Contraseña'">
 							</div>
 							<div class="col-md-12 form-group">
 								<div class="creat_account">
