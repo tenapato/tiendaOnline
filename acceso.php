@@ -61,6 +61,9 @@ if(isset( $_SESSION["username"]) && (isset($_SESSION["idCarrito"])) ){
 
 } 
 
+
+
+
 if($guardarCarrito){ //si el bool es verdaero carga los articulos que ya tenia
 
   //Variables

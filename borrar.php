@@ -23,7 +23,7 @@ ini_set('display_errors', 1);  //DEBUG
 
 	$rowBorrar = mysqli_fetch_array($resultBorrar);
 
-	//$idProductoABorrar = $rowBorrar["Id_prod"];
+	$idProductoABorrar = $rowBorrar["Id_prod"];
 	//$idCarritoABorrar = $rowBorrar["id_car"];
 	$cantidadABorrar = $rowBorrar["cantidad"];
 
@@ -40,8 +40,14 @@ ini_set('display_errors', 1);  //DEBUG
 
 	$insert_query = mysqli_query($enlace, $queryBorrar);
 
+
+
     }
 }
 
-echo '<script>window.location="index.php"</script>';
+
+header("Location: index.php");
+
+    
+//echo '<script>window.location="borrar2.php"</script>';
 ?>

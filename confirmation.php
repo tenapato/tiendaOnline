@@ -84,7 +84,7 @@
 	<!-- Site Title -->
 	<title>PC Shop</title>
 
-	<meta http-equiv="refresh" content="3;URL=borrar.php">
+	<meta http-equiv="refresh" content="3;URL=borrar2.php">
 	<!--
 		CSS
 		============================================= -->
