@@ -82,11 +82,6 @@ if($guardarCarrito){ //si el bool es verdaero carga los articulos que ya tenia
 
 
 
-
-
-
-
-
 //echo $row["cantidad"];
 //echo $row["Id_prod"];
 

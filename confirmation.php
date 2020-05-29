@@ -21,7 +21,7 @@
 
 
 
-	$query = "SELECT Fecha, id_ticket FROM ticket";
+	$query = "SELECT Fecha, id_ticket FROM ticket ORDER BY id_ticket DESC";
 
 	$result = mysqli_query($enlace,$query);
 
