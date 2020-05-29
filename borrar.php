@@ -14,6 +14,12 @@ ini_set('display_errors', 1);  //DEBUG
 
     echo $idC;
 
+	
+
+
+
+
+
 
 	$query_borrarCarrito = " SELECT * 
                 FROM carrito_has_prodcuto join carrito join productos
@@ -25,7 +31,7 @@ ini_set('display_errors', 1);  //DEBUG
 
 	$idProductoABorrar = $rowBorrar["Id_prod"];
 	//$idCarritoABorrar = $rowBorrar["id_car"];
-	$cantidadABorrar = $rowBorrar["cantidad"];
+	//$cantidadABorrar = $rowBorrar["cantidad"];
 
     echo $cantidadABorrar;
 
@@ -36,7 +42,7 @@ ini_set('display_errors', 1);  //DEBUG
 
 	$queryBorrar = "DELETE FROM carrito_has_prodcuto
 	WHERE
-	(id_car = '$idC' AND cantidad = '$cantidadABorrar');   ";
+	(id_car = '$idC');   ";
 
 	$insert_query = mysqli_query($enlace, $queryBorrar);
 
@@ -48,6 +54,7 @@ ini_set('display_errors', 1);  //DEBUG
 
 header("Location: index.php");
 
-    
-//echo '<script>window.location="borrar2.php"</script>';
+  
+
+
 ?>
