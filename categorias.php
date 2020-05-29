@@ -188,10 +188,15 @@
 
 							$query = "SELECT * FROM productos where( Categoria = 'Motherboards') ORDER BY id_producto";
 							$result = mysqli_query($enlace,$query);
-							if(mysqli_num_rows($result) > 0) {
+
+							//$row = mysqli_fetch_array($result);
+
+							if((mysqli_num_rows($result) > 0) ) {
 
 						while ($row = mysqli_fetch_array($result)) {
 							
+							if( $row["Stock"] > 0) {
+
 						?>
 						<!-- producto 1 -->
 						 
@@ -230,9 +235,10 @@
 								<?php
 
 								}	
-								
+							}
 					}
 
+				
 				?>
 					
 									

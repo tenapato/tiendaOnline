@@ -51,6 +51,10 @@ ini_set('display_errors', 1);  //DEBUG
     }
 }
 
+session_unset();
+session_destroy();
+
+
 
 header("Location: index.php");
 
