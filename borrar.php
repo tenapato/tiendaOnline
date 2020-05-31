@@ -12,7 +12,7 @@ ini_set('display_errors', 1);  //DEBUG
 	$us = $_SESSION["username"];
 	$idC = $_SESSION["idCarrito"];
 
-    echo $idC;
+    
 
 	
 
@@ -33,17 +33,21 @@ ini_set('display_errors', 1);  //DEBUG
 	//$idCarritoABorrar = $rowBorrar["id_car"];
 	//$cantidadABorrar = $rowBorrar["cantidad"];
 
-    echo $cantidadABorrar;
+    
 
 	if(mysqli_num_rows($resultBorrar) > 0) {
 
 	
 	while ($rowBorrar = mysqli_fetch_array($resultBorrar)) {
 
+	echo $idC;
+
+
 	$queryBorrar = "DELETE FROM carrito_has_prodcuto
 	WHERE
-	(id_car = '$idC');   ";
+	(id_car = '$idC');";
 
+	//$insert_query = mysqli_query($enlace, $queryBorrar);
 	$insert_query = mysqli_query($enlace, $queryBorrar);
 
 
@@ -51,8 +55,7 @@ ini_set('display_errors', 1);  //DEBUG
     }
 }
 
-session_unset();
-session_destroy();
+
 
 
 

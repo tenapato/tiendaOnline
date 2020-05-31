@@ -183,13 +183,53 @@
 
 							$query = "SELECT * FROM productos where( Categoria = 'Memory') ORDER BY id_producto";
 							$result = mysqli_query($enlace,$query);
-							if(mysqli_num_rows($result) > 0) {
+
+							if((mysqli_num_rows($result) > 0) ) {
 
 						while ($row = mysqli_fetch_array($result)) {
 							
+							if( $row["Stock"] <= 0) {
+
 						?>
-						<!-- producto 1 -->
+						<!-- cuando el producto no tiene stock -->
 						 
+						<div class="col-lg-4 col-md-6">
+						<form method="post" action="cart.php?action=add&id=<?php echo $row["id_producto"]; ?>">
+							<div class="single-product">
+								<img class="img-fluid" src="img/producto/<?php echo $row['imagen'] ?>" alt="">
+								<div class="product-details">
+							
+
+
+								<h6><?php echo $row["Nombre_producto"]; ?></h6>
+								<div class="price">
+									<h6><?php echo $row["Precio"]; ?></h6>
+								<input type="hidden" name="hidden_name" value="<?php echo $row["Nombre_producto"]; ?>">
+                                <input type="hidden" name="hidden_price" value="<?php echo $row["Precio"]; ?>">
+									</div>
+									<div class="prd-bottom">
+										
+										
+										<a>
+											<label>Cantidad</label>
+											<input type="text" name="quantity" class="form-control" value="1">
+
+										</a>
+									
+									</div>
+								</div>
+								</div>
+								<label class="product-details"><font color = "red" size = "4"> El producto esta agotado </font></label> 
+							</div>
+						
+						</form>
+
+						
+								<?php
+								//cuando si tiene articulos en stock
+								}else{
+								?>
+
 						<div class="col-lg-4 col-md-6">
 						<form method="post" action="cart.php?action=add&id=<?php echo $row["id_producto"]; ?>">
 							<div class="single-product">
@@ -221,14 +261,21 @@
 							</div>
 						
 						</form>
-						
+
+
+
 								<?php
 
-								}	
-								
+
+
+
+						}	//fin esle
+						}
 					}
 
+				
 				?>
+					
 					
 									
 									

@@ -22,6 +22,7 @@ session_start();
 	<!-- Site Title -->
 	<title>PC Shop</title>
 
+	<meta http-equiv="refresh" content="3;URL=index.php">
 	<!--
 		CSS
 		============================================= -->
@@ -92,6 +93,13 @@ else
 
 	$_SESSION['idCarrito'] = $row2['Id_Carrito'];
  */ //pensar como crear cuenta y poner indice en la sesion
+
+
+
+	session_unset();
+	session_destroy();
+
+
 ?>
 <!-- Fin PHP -->
 
