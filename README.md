@@ -1,3 +1,3 @@
 # Tienda Online
 
-![Screen ](main_screen.PNG)
+![Screen ](./main_screen.PNG)
